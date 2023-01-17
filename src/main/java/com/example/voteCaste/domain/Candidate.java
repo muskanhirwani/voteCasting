@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 public abstract class Candidate {
-     List<String> id;
-    List<String> candidateName;
-      List <Integer> voteCount= Arrays.asList(0);
+     String id;
+    String candidateName;
+      Integer voteCount= 0;
 }
