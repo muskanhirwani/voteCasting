@@ -1,14 +1,15 @@
 package com.example.voteCaste.domain;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.Arrays;
-import java.util.List;
+import lombok.NoArgsConstructor;
 
 @Data
-public abstract class Candidate {
-     String id;
+@AllArgsConstructor
+@NoArgsConstructor
+public class Candidate {
+
     String candidateName;
-      Integer voteCount= 0;
+    Integer voteCount = 0;
 }

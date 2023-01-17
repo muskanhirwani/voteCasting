@@ -2,63 +2,45 @@ package com.example.voteCaste;
 
 import com.example.voteCaste.domain.Candidate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
 @RequestMapping("/candidates")
 public class Controller {
-@Autowired
-private Service service;
+    @Autowired
+    private Service service;
+
     @PostMapping("/enterCandidate")
-    public ResponseEntity<Candidate> createCandidatEntry(@RequestBody Candidate candidate)
-    {
-
-        Candidate createdCandidate = service.create(candidate);
-        createdCandidate.getVoteCount();
-        if (createdCandidate == null) {
-            return ResponseEntity.notFound().build();
-
-        } else {
-            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{/enterCandidate}").buildAndExpand((createdCandidate.getCandidateName())).toUri();
-
-            return ResponseEntity.created(uri).body(createdCandidate);
-        }
-
-
-
+    public ResponseEntity<Candidate> createCandidatEntry(@RequestParam(name = "name") String name) throws Exception {
+        service.create(name);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
     @PutMapping("/casteVote")
 
-    public void casteVote(String candidateName)
-    {
-
-
-
-
+    public Integer casteVote(@RequestParam(name = "name") String candidateName) {
+        return service.casteVotes(candidateName);
 
     }
+
     @GetMapping("/countVotes")
-    public Candidate votes(String candidateName)
-    {
-       return
+    public Integer countVotes(@RequestParam(name = "name") String candidateName) {
+        return service.countVotes(candidateName);
     }
-//    @GetMapping("/listCandidate")
-//    public JSONPObject list()
-//    { String s="";
-//        return JSONParser(s);
-//    }
-//    @GetMapping("/getWinner")
-//    public  JSONPObject winner()
-//    {
-//        String winner="";
-//        return winner;
-//    }
+
+    @GetMapping("/listVote")
+    public List<Candidate> listOfCandidates() {
+        return service.listOfCandidates;
+    }
+
+    @GetMapping("/getWinner")
+    public String winner() {
+        return service.findWinner();
+
+    }
 
 }
