@@ -26,7 +26,7 @@ public class Service {
         int flag = 0;
         for (Candidate candidates : listOfCandidates) {
 
-            if (candidates.getCandidateName().equals(candidateName)) {
+            if (candidates.getCandidateName().equalsIgnoreCase(candidateName)) {
                 flag = 1;
                 return candidates.getVoteCount();
             }
@@ -41,11 +41,12 @@ public class Service {
     public String findWinner() {
         Integer max = 0;
         String name = "";
-        for (Candidate candidates : listOfCandidates) {
-            if (Integer.max(max, candidates.getVoteCount()) != max) ;
+
+        for (int i=0;i<listOfCandidates.size();i++) {
+            if (listOfCandidates.get(i).getVoteCount().compareTo(max)<0) ;
             {
-                max = Integer.max(max, candidates.getVoteCount());
-                name = candidates.getCandidateName();
+                max =  listOfCandidates.get(i).getVoteCount();
+                name = listOfCandidates.get(i).getCandidateName();
             }
         }
         return name;
@@ -60,10 +61,11 @@ public class Service {
                 candidates.setVoteCount(candidates.getVoteCount() + 1);
                 voteCount = candidates.getVoteCount();
             }
+        }
             if (flag == 0) {
                 throw new NoSuchElementException();
             }
-        }
+
         return voteCount;
     }
 }
