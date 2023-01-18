@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 @Data
 public class Service {
     public List<Candidate> listOfCandidates = new ArrayList<>();
+
     public void create(String name) throws Exception {
 
         Candidate candidate = new Candidate();
@@ -38,11 +39,14 @@ public class Service {
     }
 
     public String findWinner() {
-        int max = 0;
+        Integer max = 0;
         String name = "";
         for (Candidate candidates : listOfCandidates) {
-            max = Integer.max(max, candidates.getVoteCount());
-            name = candidates.getCandidateName();
+            if (Integer.max(max, candidates.getVoteCount()) != max) ;
+            {
+                max = Integer.max(max, candidates.getVoteCount());
+                name = candidates.getCandidateName();
+            }
         }
         return name;
     }
@@ -56,9 +60,9 @@ public class Service {
                 candidates.setVoteCount(candidates.getVoteCount() + 1);
                 voteCount = candidates.getVoteCount();
             }
-        }
-        if (flag == 0) {
-            throw new NoSuchElementException();
+            if (flag == 0) {
+                throw new NoSuchElementException();
+            }
         }
         return voteCount;
     }
